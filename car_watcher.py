@@ -59,7 +59,8 @@ while (True):
 
 	#todo now net error is not taken into consideration
 	#check if any car exists
-	car_exist = (r == 255 & g == 255 & b == 255)
+	car_exist = ((r == 255 and g == 255 and b == 255) | (r == 31 and g == 35 and b == 23))
+	print("existed:" + str(car_exist))
 	time_interval = 30
 	if (car_exist):
 		#upload to slack if this is a car
