@@ -60,7 +60,7 @@ while (True):
 	#todo now net error is not taken into consideration
 	#check if any car exists
 	car_exist = (r == 255 & g == 255 & b == 255)
-	time_interval = 10
+	time_interval = 30
 	if (car_exist):
 		#upload to slack if this is a car
 		print('Car found, upload to slack')
@@ -75,7 +75,7 @@ while (True):
 		response = requests.post('https://hooks.slack.com/services/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', data=payload, headers=headers)
 		print(response, response.status_code, response.text)
 		
-		time_interval = 120
+		time_interval = 180
 	else:
 		print('not found')
 		
