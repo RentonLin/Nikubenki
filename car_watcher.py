@@ -6,13 +6,14 @@ import time
 from PIL import Image
 import requests
 import json
+import random
 
 #loop
 while (True):
 	#make a adb tap event
 	print('tap')
-	x = 0x91
-	y = 0x29b
+	x = 0x91 +  random.randint(0, 6) - 3 
+	y = 0x29b + random.randint(0, 6) - 3
 	path_to_adb = '/Users/linweichao/Documents/platform-tools/adb '
 	command = 'shell input tap ' + str(x) + ' ' + str(y)
 
@@ -61,7 +62,7 @@ while (True):
 	#check if any car exists
 	car_exist = ((r == 255 and g == 255 and b == 255) | (r == 31 and g == 35 and b == 23))
 	print("existed:" + str(car_exist))
-	time_interval = 30
+	time_interval = 30 + random.randint(10, 30)
 	if (car_exist):
 		#upload to slack if this is a car
 		print('Car found, upload to slack')
