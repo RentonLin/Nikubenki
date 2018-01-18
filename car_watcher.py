@@ -32,7 +32,8 @@ while (not foundCar):
 	print('taking a screenshot')
 	timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d_%H_%M_%S')
 	print(timestamp)
-	file_path = 'screenshots/' + timestamp + '.png'
+	file_name = timestamp + '.png'
+	file_path = 'screenshots/' + file_name
 	command = 'exec-out screencap -p > ' + file_path
 	finnal_command = path_to_adb + command
 	procId = subprocess.Popen(finnal_command, shell=True, stdin = subprocess.PIPE, stderr=subprocess.PIPE)
@@ -80,13 +81,17 @@ while (not foundCar):
 		print(response, response.status_code, response.text)
 		
 		time_interval = 180
+		
+		#stroe picture to cars folder
+		subprocess.Popen('mv ' + file_path + ' cars/' + file_name , shell=True)
 	else:
 		print('not found')
+		
+		if 5 == random.randint(1, 10):
+			subprocess.Popen('mv ' + file_path + ' nocars/' + file_name , shell=True)
+		
 		#go to main screen
 		subprocess.Popen(path_to_adb + ' shell input keyevent 3', shell=True)
-#		stdout, stdrr = procId.communicate()
-#		print(stdout)
-#		print(stdrr)
 		
 		#sleep according to whether this is a car
 		time.sleep(time_interval)
@@ -94,8 +99,5 @@ while (not foundCar):
 		
 		#go back
 		subprocess.Popen(path_to_adb + ' shell input tap 400 1698', shell=True)
-#		stdout, stdrr = procId.communicate()
-#		print(stdout)
-#		print(stdrr)
 		
 		time.sleep(5)
