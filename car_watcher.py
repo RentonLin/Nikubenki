@@ -9,7 +9,8 @@ import json
 import random
 
 #loop
-while (True):
+foundCar = False
+while (not foundCar):
 	#make a adb tap event
 	print('tap')
 	x = 0x91 +  random.randint(0, 6) - 3 
@@ -60,10 +61,11 @@ while (True):
 
 	#todo now net error is not taken into consideration
 	#check if any car exists
-	car_exist = ((r == 255 and g == 255 and b == 255) | (r == 31 and g == 35 and b == 23))
-	print("existed:" + str(car_exist))
+	foundCar = ((r == 255 and g == 255 and b == 255) | (r == 31 and g == 35 and b == 23))
+	print("existed:" + str(foundCar))
 	time_interval = 30 + random.randint(10, 30)
-	if (car_exist):
+#	time_interval = 5
+	if (foundCar):
 		#upload to slack if this is a car
 		print('Car found, upload to slack')
 		#wait at least 2 minutes to refresh again
@@ -80,6 +82,20 @@ while (True):
 		time_interval = 180
 	else:
 		print('not found')
+		#go to main screen
+		subprocess.Popen(path_to_adb + ' shell input keyevent 3', shell=True)
+#		stdout, stdrr = procId.communicate()
+#		print(stdout)
+#		print(stdrr)
 		
-	#sleep according to whether this is a car
-	time.sleep(time_interval)
+		#sleep according to whether this is a car
+		time.sleep(time_interval)
+		
+		
+		#go back
+		subprocess.Popen(path_to_adb + ' shell input tap 400 1698', shell=True)
+#		stdout, stdrr = procId.communicate()
+#		print(stdout)
+#		print(stdrr)
+		
+		time.sleep(5)
