@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from rt_adb_command import rt_adb_command
 import time
+import random
 
 class rt_dc_command(object):
 	@staticmethod
@@ -15,9 +16,9 @@ class rt_dc_command(object):
 	
 	#now it only cast sill of No.1
 	def cast_drive_skill():
-		rt_dc_command.tap(316, 1653)
-		time.sleep(0.5)
-		rt_dc_command.tap(527, 1653)
+		rt_dc_command.tap(316 + random.randint(1, 5), 1653 + random.randint(1, 5))
+		time.sleep(0.45)
+		rt_dc_command.tap(527 + random.randint(1, 5), 1653 + random.randint(1, 5))
 		
 	def tap_pause_button():
 		rt_dc_command.tap(479, 334)

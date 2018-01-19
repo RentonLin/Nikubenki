@@ -19,5 +19,8 @@ class rt_adb_command:
 	
 	def swipe(x, y, target_x, target_y):
 		return rt_adb_command.input_event("input swipe" + " " + x + " " + y + " " + target_x + " " + target_y)
+		
+	def take_screenshot(filepath):
+		return rtcommand.run_command(adb_path + " exec-out screencap -p > " + filepath)
 
 #print(rt_adb_command.tap_point(479, 334))
