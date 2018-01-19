@@ -64,8 +64,8 @@ while (not foundCar):
 	#check if any car exists
 	foundCar = ((r == 255 and g == 255 and b == 255) | (r == 31 and g == 35 and b == 23))
 	print("existed:" + str(foundCar))
-	time_interval = 30 + random.randint(10, 30)
-#	time_interval = 5
+	time_interval = 30 + random.randint(10, 20)
+#	time_interval = 10
 	if (foundCar):
 		#upload to slack if this is a car
 		print('Car found, upload to slack')
