@@ -37,12 +37,12 @@ class rt_farm:
 			print(timestamp)
 			file_name = timestamp + '.png'
 			file_path = 'screenshots/' + file_name
-			rt_adb_command.take_screenshot(file_path)
+			print(rt_adb_command.take_screenshot(file_path))
 
 			#get a pixel of the image
 			#file_path = 'screenshots/test.png'
 			print('checking the screenshot')
-			foundCar = rt_dc_command.check_screenshot_car(file_path)
+			foundCar, neterror = rt_dc_command.check_screenshot_car(file_path)
 			print("existed:" + str(foundCar))
 			
 			time_interval = 30 + random.randint(10, 20)
@@ -59,16 +59,19 @@ class rt_farm:
 				rtcommand.run_command('mv ' + file_path + ' cars/' + file_name)
 			else:
 				print('not found')
-				
-				if 5 == random.randint(1, 10):
-					rtcommand.run_command('mv ' + file_path + ' nocars/' + file_name)
-				
-				if fake:
-				#go to main screen
-					rt_dc_command.go_to_home()
-					time.sleep(time_interval)		
-					#go back
-					rt_dc_command.go_back_to_game()			
-					time.sleep(5)
+				if neterror:
+					rt_slack.upload_net_error()
+#					rt_adb_command.tap_point(x, y)
 				else:
-					time.sleep(time_interval)
+					if 5 == random.randint(1, 10):
+						rtcommand.run_command('mv ' + file_path + ' nocars/' + file_name)
+					
+					if fake:
+					#go to main screen
+						rt_dc_command.go_to_home()
+						time.sleep(time_interval)		
+						#go back
+						rt_dc_command.go_back_to_game()			
+						time.sleep(5)
+					else:
+						time.sleep(time_interval)

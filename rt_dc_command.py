@@ -55,7 +55,8 @@ class rt_dc_command(object):
 		#todo now net error is not taken into consideration
 		#check if any car exists
 		foundCar = ((r == 255 and g == 255 and b == 255) | (r == 31 and g == 35 and b == 23))
-		return foundCar
+		neterror = (r == 12 and g == 12 and b == 12)
+		return (foundCar, neterror)
 	
 	def go_back_to_game():
 		rt_dc_command.tap(rt_dc_command.current_strategy.return_to_app_x, rt_dc_command.current_strategy.return_to_app_y)
