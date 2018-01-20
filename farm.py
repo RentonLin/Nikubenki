@@ -4,10 +4,14 @@ from rt_adb_command import rt_adb_command
 from rtcommand import rtcommand
 from rt_slack import rt_slack
 import time, datetime, random
-from PIL import Image
+from strategy import rt_dc_strategy
 
 class rt_farm:
+	
 	@staticmethod
+	def set_current_strategy(strategy):
+		rt_dc_command.set_current_strategy(strategy)
+		
 	def farm_exp():
 		while (True):
 			print("try to cast drive_skill")
@@ -21,9 +25,7 @@ class rt_farm:
 		while (not foundCar):
 			#make a adb tap event
 			print('tap')
-			x = 0x91 +  random.randint(0, 6) - 3 
-			y = 0x29b + random.randint(0, 6) - 3
-			print(rt_dc_command.tap(x, y))
+			rt_dc_command.tap_refresh_car_button()
 
 			#waiting for refresh completed
 			print("waiting for refresh completed")
@@ -40,24 +42,9 @@ class rt_farm:
 			#get a pixel of the image
 			#file_path = 'screenshots/test.png'
 			print('checking the screenshot')
-			image = Image.open(file_path, 'r')
-			pix = image.load()
-
-			point_x = 74
-			point_y = 775
-			pixel = pix[point_x, point_y]
-			print(pix[point_x, point_y])
-			r = pixel[0]
-			g = pixel[1]
-			b = pixel[2]
-			#color = hex(r * 16 * 16 * 16 * 16 + g * 16 * 16 + b)
-			#print(r, g, b)
-			#print(color)
-
-			#todo now net error is not taken into consideration
-			#check if any car exists
-			foundCar = ((r == 255 and g == 255 and b == 255) | (r == 31 and g == 35 and b == 23))
+			foundCar = rt_dc_command.check_screenshot_car(file_path)
 			print("existed:" + str(foundCar))
+			
 			time_interval = 30 + random.randint(10, 20)
 			if not fake:
 				time_interval = 10
@@ -81,7 +68,7 @@ class rt_farm:
 					rt_dc_command.go_to_home()
 					time.sleep(time_interval)		
 					#go back
-					rt_dc_command.tap(400, 1698)			
+					rt_dc_command.go_back_to_game()			
 					time.sleep(5)
 				else:
 					time.sleep(time_interval)
